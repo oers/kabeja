@@ -19,6 +19,7 @@ to jpeg, tiff, png and pdf are included.
 
     <modules>
         <module>core</module>
+        <module>blocks/dxf</module>
     </modules>
 
     <profiles>
@@ -26,7 +27,6 @@ to jpeg, tiff, png and pdf are included.
             <id>blocks</id>
             <modules>
                 <module>blocks/acis</module>
-                <module>blocks/dxf</module>
                 <module>blocks/ui</module>
                 <module>blocks/inkscape</module>
                 <module>blocks/svg</module>
