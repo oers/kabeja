@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2010 Simon Mieth
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,13 +36,13 @@ import org.kabeja.util.Constants;
  *
  */
 public class Layer {
-	
-	
-  
-	private Map<Type<?>,List<DraftEntity>> entities = new HashMap<Type<?>,List<DraftEntity>>();
+
+
+
+    private Map<Type<?>,List<DraftEntity>> entities = new HashMap<Type<?>,List<DraftEntity>>();
     private String name = "";
     private String id="";
-    
+
     private int color = 0;
     private DraftDocument doc;
     private LineType ltype;
@@ -50,15 +50,15 @@ public class Layer {
     private int lineWeight = 0;
     private String plotStyle = "";
     private int zIndex=0;
-    
+
     protected final static int BIT_PLOTTABLE=0;
     protected final static int BIT_OWN_LINETYPE=1;
-    
+
     private int bitField;
-  
-    
-    
- 
+
+
+
+
 
     /**
      * @return Returns the name.
@@ -80,7 +80,7 @@ public class Layer {
         entity.setDocument(this.doc);
         entity.setLayer(this);
         if (entities.containsKey(entity.getType())) {
-           entities.get(entity.getType()).add(entity);
+            entities.get(entity.getType()).add(entity);
         } else {
             List<DraftEntity> list = new ArrayList<DraftEntity>();
             list.add(entity);
@@ -90,8 +90,8 @@ public class Layer {
 
     public void removeEntity(DraftEntity entity) {
         if (entities.containsKey(entity.getType())) {
-             List<DraftEntity> list = entities.get(entity.getType());
-             list.remove(entity);
+            List<DraftEntity> list = entities.get(entity.getType());
+            list.remove(entity);
 
             if (list.isEmpty()) {
                 entities.remove(entity.getType());
@@ -99,20 +99,30 @@ public class Layer {
         }
     }
 
-   /**
-    * Set the Owner Document of the layer and
-    * all including entities
-    * @param doc
-    */
-    
+    /**
+     * Set the Owner Document of the layer and
+     * all including entities
+     * @param doc
+     */
+
     public void setDocument(DraftDocument doc) {
         this.doc = doc;
         //add to all entities
         for(List<DraftEntity> list:entities.values()){
-        	for(DraftEntity entity:list){
-        		entity.setDocument(doc);
-        	}
+            for(DraftEntity entity:list){
+                entity.setDocument(doc);
+            }
         }
+    }
+
+    /**
+     * Set the Owner Document of the layer and
+     * all including entities
+     * @param doc
+     */
+
+    public void setDocumentForEntity(DraftDocument doc) {
+        this.doc = doc;
     }
 
     public DraftDocument getDocument() {
@@ -121,14 +131,14 @@ public class Layer {
 
     public Bounds getBounds() {
         Bounds bounds = new Bounds();
-        
+
         for(List<DraftEntity> list:entities.values()){
-        	for(DraftEntity entity:list){
-        		 Bounds b = entity.getBounds();
-                 if (b.isValid()) {
-                     bounds.addToBounds(b);
-                 }
-        	}
+            for(DraftEntity entity:list){
+                Bounds b = entity.getBounds();
+                if (b.isValid()) {
+                    bounds.addToBounds(b);
+                }
+            }
         }
 
         return bounds;
@@ -142,7 +152,7 @@ public class Layer {
      * @return
      */
     public Bounds getBounds(boolean onModelspace) {
-     
+
         Bounds bounds = new Bounds();
 
         Iterator<List<DraftEntity>> typeIterator = this.entities.values().iterator();
@@ -174,7 +184,7 @@ public class Layer {
      * Returns a List of the Entities of the given Type.
      *
      * @param type
-     * @return List 
+     * @return List
      */
     public <T extends DraftEntity> List<T> getEntitiesByType(Type<T> type) {
         if (entities.containsKey(type)) {
@@ -188,12 +198,12 @@ public class Layer {
         return entities.containsKey(type);
     }
 
-  
-    
+
+
     public Collection<Type<? extends DraftEntity>> getEntityTypes(){
-    	return this.entities.keySet();
+        return this.entities.keySet();
     }
-    
+
     /**
      * Gets the @see DraftEntity with the specified ID.
      * @param id  of the @see DraftEntity
@@ -227,15 +237,15 @@ public class Layer {
     }
 
     public void setLineType(LineType ltype) {
-         Utils.enableBit(this.bitField, BIT_PLOTTABLE);
+        Utils.enableBit(this.bitField, BIT_PLOTTABLE);
         this.ltype = ltype;
     }
 
     public LineType getLineType() {
         if(Utils.isBitEnabled(this.bitField, BIT_PLOTTABLE)){
-               return ltype;
+            return ltype;
         }else{
-               return Constants.DEFAULT_LINETYPE;   
+            return Constants.DEFAULT_LINETYPE;
         }
     }
 
@@ -277,52 +287,52 @@ public class Layer {
     public void setPlotStyle(String plotStyle) {
         this.plotStyle = plotStyle;
     }
-    
-    
+
+
     public boolean isEmpty(){
-    	return this.entities.size()==0;
+        return this.entities.size()==0;
     }
 
-	/**
-	 * @return the zIndex
-	 */
-	public int getZIndex() {
-		return zIndex;
-	}
+    /**
+     * @return the zIndex
+     */
+    public int getZIndex() {
+        return zIndex;
+    }
 
-	/**
-	 * @param index the zIndex to set
-	 */
-	public void setZIndex(int index) {
-		zIndex = index;
-	}
-	
-	
-	public String getID(){
-		return this.id;
-	}
-	
-	
-	public void setID(String id){
-		this.id =id;
-	}
+    /**
+     * @param index the zIndex to set
+     */
+    public void setZIndex(int index) {
+        zIndex = index;
+    }
 
-	/**
-	 * @return the plottable
-	 */
-	public boolean isPlottable() {
-		return Utils.isBitEnabled(this.bitField, BIT_PLOTTABLE);
-	}
 
-	/**
-	 * @param plottable the plottable to set
-	 */
-	public void setPlottable(boolean plottable) {
-	    Utils.enableBit(this.bitField,BIT_PLOTTABLE);
-	}
-	
-	
-	public boolean hasLineType(){
-	    return Utils.isBitEnabled(this.bitField, BIT_OWN_LINETYPE);
-	}
+    public String getID(){
+        return this.id;
+    }
+
+
+    public void setID(String id){
+        this.id =id;
+    }
+
+    /**
+     * @return the plottable
+     */
+    public boolean isPlottable() {
+        return Utils.isBitEnabled(this.bitField, BIT_PLOTTABLE);
+    }
+
+    /**
+     * @param plottable the plottable to set
+     */
+    public void setPlottable(boolean plottable) {
+        Utils.enableBit(this.bitField,BIT_PLOTTABLE);
+    }
+
+
+    public boolean hasLineType(){
+        return Utils.isBitEnabled(this.bitField, BIT_OWN_LINETYPE);
+    }
 }

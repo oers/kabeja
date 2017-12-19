@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2010 Simon Mieth
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,8 +43,8 @@ import org.kabeja.util.Constants;
 
 /**
  * @author <a href="mailto:simon.mieth@gmx.de>Simon Mieth</a>
- * 
- * 
+ *
+ *
  */
 public class DraftDocument {
 
@@ -104,9 +104,9 @@ public class DraftDocument {
 	}
 
 	/**
-	 * 
+	 *
 	 * Returns the specified layer.
-	 * 
+	 *
 	 * @param key
 	 *            The layer id
 	 * @return the layer or if not found the default layer (layer "0")
@@ -129,7 +129,7 @@ public class DraftDocument {
 
 	/**
 	 * Returns true if the document contains the specified layer.
-	 * 
+	 *
 	 * @param layerName
 	 *            the layer name
 	 * @return true - if the document contains the layer, otherwise false
@@ -144,7 +144,7 @@ public class DraftDocument {
 
 	/**
 	 * Adds a line type to this document
-	 * 
+	 *
 	 * @param ltype
 	 *            - the line type to add
 	 */
@@ -155,7 +155,7 @@ public class DraftDocument {
 
 	/**
 	 * Gets the line type by name
-	 * 
+	 *
 	 * @param name of the {@see org.kabeja.common.LineType}
 	 * @return
 	 */
@@ -167,21 +167,21 @@ public class DraftDocument {
 	 * Get the {@see java.util.Collection} of all containing {@see org.kabeja.common.LineType}
 	 * @return the {@see java.util.Collection} of {@see org.kabeja.common.LineType}
 	 */
-	
+
 	public Collection<LineType> getLineTypes() {
 		return this.lineTypes.values();
 	}
 
-	
+
 	public boolean containsLineType(String name){
 		return this.lineTypes.containsKey(name);
 	}
-	
+
 	/**
 	 * Adds the given to the DraftDocument. It will placed on the layer of the
 	 * entity if this one exists otherwise the entity will be added to the
 	 * RootLayer "0".
-	 * 
+	 *
 	 * @param entity {@see org.kabeja.common.DraftEntity}
 	 */
 
@@ -191,13 +191,13 @@ public class DraftDocument {
 			layer = this.getRootLayer();
 		}
 		layer.addEntity(entity);
-		layer.setDocument(this);
+		layer.setDocumentForEntity(this);
 	}
 
 	/**
 	 * Add a block to the DraftDocument, all entities of the block get this
 	 * DraftDocument as OwnerDocument
-	 * 
+	 *
 	 * @param block
 	 */
 
@@ -211,7 +211,7 @@ public class DraftDocument {
 	 * @param name
 	 * @return The Block with the given by {@link org.kabeja.common.Block#getName() or null if there is no such block
 	 */
-	
+
 	public Block getBlock(String name) {
 		return (Block) blocks.get(name);
 	}
@@ -224,14 +224,14 @@ public class DraftDocument {
 		return blocks.values();
 	}
 
-	
+
 	/**
 	 * set a property of the DraftDocument
 	 * @param property key 
 	 * @param property value 
 	 */
-	
-	
+
+
 	public void setProperty(String key, String value) {
 		this.properties.put(key, value);
 	}
@@ -241,7 +241,7 @@ public class DraftDocument {
 	 * @param key
 	 * @return the property value or null if there is no such property
 	 */
-	
+
 	public String getProperty(String key) {
 		if (properties.containsKey(key)) {
 			return (String) properties.get(key);
@@ -256,12 +256,12 @@ public class DraftDocument {
 
 	/**
 	 * Returns the {@see org.kabeja.math.Bounds} of this document
-	 * 
+	 *
 	 * @return
 	 */
 	public Bounds getBounds() {
 		this.bounds = new Bounds();
-		
+
 		for (Layer layer : this.layers.values()) {
 			if (!layer.isFrozen()) {
 				Bounds b = layer.getBounds();
@@ -277,7 +277,7 @@ public class DraftDocument {
 	/**
 	 * Returns the bounds of this document by
 	 * distinguished model space or paper space
-	 * 
+	 *
 	 * @return
 	 */
 	public Bounds getBounds(boolean onModelspace) {
@@ -380,7 +380,7 @@ public class DraftDocument {
 
 	/**
 	 * Returns the root dictionary.
-	 * 
+	 *
 	 * @return the root Dictionray
 	 */
 	public Dictionary getRootDictionary() {
@@ -403,7 +403,7 @@ public class DraftDocument {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 *            , the ID of the object
 	 * @return the object
@@ -422,7 +422,7 @@ public class DraftDocument {
 
 	/**
 	 * Gets the
-	 * 
+	 *
 	 * @see Entity with the specified ID.
 	 * @param id
 	 *            of the
@@ -452,7 +452,7 @@ public class DraftDocument {
 
 	/**
 	 * Adds a HatchPattern to the document.
-	 * 
+	 *
 	 * @param pattern
 	 */
 	public void addHatchPattern(HatchPattern pattern) {
@@ -468,7 +468,7 @@ public class DraftDocument {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ID
 	 *            of the pattern (also called pattern name)
 	 * @return the HatchPattern or null
