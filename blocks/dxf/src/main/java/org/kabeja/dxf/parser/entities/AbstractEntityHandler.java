@@ -58,7 +58,7 @@ public abstract class AbstractEntityHandler implements DXFEntityHandler {
 	public final static int GROUPCODE_OWNER = 330;
 	protected DraftDocument doc;
 
-	private static Layer lastLayer;
+	private Layer lastLayer;
 	private boolean lastLayerPresent;
 
 	public void setDocument(DraftDocument doc) {
